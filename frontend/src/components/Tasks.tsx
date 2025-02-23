@@ -13,6 +13,9 @@ const Tasks: React.FC = () => {
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [newTaskDesc, setNewTaskDesc] = useState('');
   const [error, setError] = useState('');
+  const [editingTaskId, setEditingTaskId] = useState<number | null>(null);
+  const [editTitle, setEditTitle] = useState('');
+  const [editDescription, setEditDescription] = useState('');
 
   const fetchTasks = async () => {
     try {
@@ -53,12 +56,36 @@ const Tasks: React.FC = () => {
 
   const handleToggleComplete = async (id: number, currentStatus: boolean) => {
     try {
-      // Toggle the isComplete status
       await api.put(`/tasks/${id}`, { isComplete: !currentStatus });
       fetchTasks();
     } catch (err) {
       console.error(err);
       setError('Failed to update task status');
+    }
+  };
+
+  const startEditing = (task: Task) => {
+    setEditingTaskId(task.id);
+    setEditTitle(task.title);
+    setEditDescription(task.description || '');
+  };
+
+  const cancelEditing = () => {
+    setEditingTaskId(null);
+    setEditTitle('');
+    setEditDescription('');
+  };
+
+  const handleSaveEdit = async (id: number) => {
+    try {
+      await api.put(`/tasks/${id}`, { title: editTitle, description: editDescription });
+      setEditingTaskId(null);
+      setEditTitle('');
+      setEditDescription('');
+      fetchTasks();
+    } catch (err) {
+      console.error(err);
+      setError('Failed to update task');
     }
   };
 
@@ -78,8 +105,8 @@ const Tasks: React.FC = () => {
           />
         </div>
         <div className="mb-4">
-          <textarea
-            rows={3}
+          <input
+            type="text"
             placeholder="Task description"
             className="w-full p-2 border rounded"
             value={newTaskDesc}
@@ -88,7 +115,7 @@ const Tasks: React.FC = () => {
         </div>
         <button
           type="submit"
-          className="bg-green-600 text-white p-2 rounded hover:bg-green-700 w-full"
+          className="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700"
         >
           Add Task
         </button>
@@ -96,30 +123,71 @@ const Tasks: React.FC = () => {
       <ul className="space-y-4">
         {tasks.map(task => (
           <li key={task.id} className="flex items-center justify-between border p-4 rounded">
-            <div>
-              <h3 className="font-bold text-lg">{task.title}</h3>
-              <p className="text-gray-600">{task.description}</p>
-              <p className="text-sm mt-1">
-                Status:{' '}
-                <span className={task.isComplete ? 'text-green-600' : 'text-red-600'}>
-                  {task.isComplete ? 'Complete' : 'Incomplete'}
-                </span>
-              </p>
+            <div className="flex items-center w-full">
+              <input
+                type="checkbox"
+                checked={task.isComplete}
+                onChange={() => handleToggleComplete(task.id, task.isComplete)}
+                className="mr-4"
+              />
+              {editingTaskId === task.id ? (
+                <div className="flex-1">
+                  <input
+                    type="text"
+                    value={editTitle}
+                    onChange={e => setEditTitle(e.target.value)}
+                    className="mb-2 p-1 border rounded w-full"
+                  />
+                  <input
+                    type="text"
+                    value={editDescription}
+                    onChange={e => setEditDescription(e.target.value)}
+                    className="mb-2 p-1 border rounded w-full"
+                  />
+                  <div>
+                    <button
+                      onClick={() => handleSaveEdit(task.id)}
+                      className="bg-blue-600 text-white px-3 py-1 rounded mr-2 hover:bg-blue-700"
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={cancelEditing}
+                      className="bg-gray-600 text-white px-3 py-1 rounded hover:bg-gray-700"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex-1">
+                  <h3 className="font-bold text-lg">{task.title}</h3>
+                  <p className="text-gray-600">{task.description}</p>
+                  <p className="text-sm mt-1">
+                    Status:{' '}
+                    <span className={task.isComplete ? 'text-green-600' : 'text-red-600'}>
+                      {task.isComplete ? 'Complete' : 'Incomplete'}
+                    </span>
+                  </p>
+                </div>
+              )}
             </div>
-            <div className="flex gap-2">
-              <button
-                onClick={() => handleToggleComplete(task.id, task.isComplete)}
-                className="bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
-              >
-                {task.isComplete ? 'Mark Incomplete' : 'Mark Complete'}
-              </button>
-              <button
-                onClick={() => handleDeleteTask(task.id)}
-                className="bg-red-600 text-white p-2 rounded hover:bg-red-700"
-              >
-                Delete
-              </button>
-            </div>
+            {editingTaskId !== task.id && (
+              <div className="flex gap-2">
+                <button
+                  onClick={() => startEditing(task)}
+                  className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleDeleteTask(task.id)}
+                  className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 justify-end"
+                >
+                  Delete
+                </button>
+              </div>
+            )}
           </li>
         ))}
       </ul>
@@ -128,5 +196,3 @@ const Tasks: React.FC = () => {
 };
 
 export default Tasks;
-
-

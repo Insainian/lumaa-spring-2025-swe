@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from './store/store';
 import Login from './components/Login';
@@ -12,21 +12,12 @@ const App: React.FC = () => {
 
   return (
     <Router>
-      <nav className="bg-blue-600 p-4 flex justify-between items-center">
-        <div className="text-white font-bold text-xl">Task Management</div>
-        <div>
-          {!token ? (
-            <>
-              <Link to="/login" className="text-white mx-2 hover:underline">Login</Link>
-              <Link to="/register" className="text-white mx-2 hover:underline">Register</Link>
-            </>
-          ) : (
-            <>
-              <Link to="/tasks" className="text-white mx-2 hover:underline">Tasks</Link>
-              <LogoutButton />
-            </>
-          )}
-        </div>
+      <nav className="bg-blue-600 p-4 flex items-center">
+        {token && (
+          <div className="ml-auto">
+            <LogoutButton />
+          </div>
+        )}
       </nav>
       <div className="container mx-auto mt-8">
         <Routes>

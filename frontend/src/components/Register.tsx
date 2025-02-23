@@ -1,21 +1,26 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import api from '../api';
 
 const Register: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
     try {
       await api.post('/auth/register', { username, password });
-      // On success, navigate to login page
+      console.log('Navigating to login')
       navigate('/login');
-    } catch (err: any) {
-      console.error(err);
+    } catch (err) {
+      console.log(err)
       setError('Registration failed');
     }
   };
@@ -45,16 +50,31 @@ const Register: React.FC = () => {
             required
           />
         </div>
+        <div className="mb-4">
+          <label className="block mb-1 font-semibold">Confirm Password</label>
+          <input
+            type="password"
+            className="w-full p-2 border rounded"
+            value={confirmPassword}
+            onChange={e => setConfirmPassword(e.target.value)}
+            required
+          />
+        </div>
         <button
           type="submit"
-          className="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700"
+          className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
         >
           Register
         </button>
       </form>
+      <p className="mt-4 text-center">
+        Already have an account?{' '}
+        <Link to="/login" className="text-blue-600 hover:underline">
+          Login here
+        </Link>
+      </p>
     </div>
   );
 };
 
 export default Register;
-

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import api, { setAuthToken } from '../api';
 import { useDispatch } from 'react-redux';
 import { setToken } from '../store/authSlice';
@@ -58,9 +58,16 @@ const Login: React.FC = () => {
           Login
         </button>
       </form>
+      <p className="mt-4 text-center">
+        Don't have an account?{' '}
+        <Link to="/register" className="text-blue-600 hover:underline">
+          Register here
+        </Link>
+      </p>
     </div>
   );
 };
+
 
 
 export default Login;
