@@ -21,32 +21,40 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>Register</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+    <div className="max-w-md mx-auto bg-white p-6 rounded shadow">
+      <h2 className="text-2xl font-bold mb-4">Register</h2>
+      {error && <p className="text-red-500 mb-4">{error}</p>}
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Username: </label>
+        <div className="mb-4">
+          <label className="block mb-1 font-semibold">Username</label>
           <input
             type="text"
+            className="w-full p-2 border rounded"
             value={username}
             onChange={e => setUsername(e.target.value)}
             required
           />
         </div>
-        <div>
-          <label>Password: </label>
+        <div className="mb-4">
+          <label className="block mb-1 font-semibold">Password</label>
           <input
             type="password"
+            className="w-full p-2 border rounded"
             value={password}
             onChange={e => setPassword(e.target.value)}
             required
           />
         </div>
-        <button type="submit">Register</button>
+        <button
+          type="submit"
+          className="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700"
+        >
+          Register
+        </button>
       </form>
     </div>
   );
 };
 
 export default Register;
+

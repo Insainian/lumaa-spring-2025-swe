@@ -1,4 +1,3 @@
-// src/App.tsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -13,23 +12,30 @@ const App: React.FC = () => {
 
   return (
     <Router>
-      <nav>
-        {!token ? (
-          <>
-            <Link to="/login">Login</Link> | <Link to="/register">Register</Link>
-          </>
-        ) : (
-          <>
-            <Link to="/tasks">Tasks</Link> | <LogoutButton />
-          </>
-        )}
+      <nav className="bg-blue-600 p-4 flex justify-between items-center">
+        <div className="text-white font-bold text-xl">Task Management</div>
+        <div>
+          {!token ? (
+            <>
+              <Link to="/login" className="text-white mx-2 hover:underline">Login</Link>
+              <Link to="/register" className="text-white mx-2 hover:underline">Register</Link>
+            </>
+          ) : (
+            <>
+              <Link to="/tasks" className="text-white mx-2 hover:underline">Tasks</Link>
+              <LogoutButton />
+            </>
+          )}
+        </div>
       </nav>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/tasks" element={token ? <Tasks /> : <Navigate to="/login" />} />
-        <Route path="*" element={<Navigate to="/login" />} />
-      </Routes>
+      <div className="container mx-auto mt-8">
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/tasks" element={token ? <Tasks /> : <Navigate to="/login" />} />
+          <Route path="*" element={<Navigate to="/login" />} />
+        </Routes>
+      </div>
     </Router>
   );
 };

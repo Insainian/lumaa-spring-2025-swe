@@ -63,34 +63,63 @@ const Tasks: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>My Tasks</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleCreateTask}>
-        <input
-          type="text"
-          placeholder="Task title"
-          value={newTaskTitle}
-          onChange={e => setNewTaskTitle(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Task description"
-          value={newTaskDesc}
-          onChange={e => setNewTaskDesc(e.target.value)}
-        />
-        <button type="submit">Create Task</button>
+    <div className="max-w-3xl mx-auto bg-white p-6 rounded shadow">
+      <h2 className="text-2xl font-bold mb-4">My Tasks</h2>
+      {error && <p className="text-red-500 mb-4">{error}</p>}
+      <form onSubmit={handleCreateTask} className="mb-6">
+        <div className="mb-4">
+          <input
+            type="text"
+            placeholder="Task title"
+            className="w-full p-2 border rounded"
+            value={newTaskTitle}
+            onChange={e => setNewTaskTitle(e.target.value)}
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <textarea
+            rows={3}
+            placeholder="Task description"
+            className="w-full p-2 border rounded"
+            value={newTaskDesc}
+            onChange={e => setNewTaskDesc(e.target.value)}
+          />
+        </div>
+        <button
+          type="submit"
+          className="bg-green-600 text-white p-2 rounded hover:bg-green-700 w-full"
+        >
+          Add Task
+        </button>
       </form>
-      <ul>
+      <ul className="space-y-4">
         {tasks.map(task => (
-          <li key={task.id}>
-            <strong>{task.title}</strong> - {task.description} {' '}
-            {task.isComplete ? '[Complete]' : '[Incomplete]'}
-            <button onClick={() => handleToggleComplete(task.id, task.isComplete)}>
-              {task.isComplete ? 'Mark Incomplete' : 'Mark Complete'}
-            </button>
-            <button onClick={() => handleDeleteTask(task.id)}>Delete</button>
+          <li key={task.id} className="flex items-center justify-between border p-4 rounded">
+            <div>
+              <h3 className="font-bold text-lg">{task.title}</h3>
+              <p className="text-gray-600">{task.description}</p>
+              <p className="text-sm mt-1">
+                Status:{' '}
+                <span className={task.isComplete ? 'text-green-600' : 'text-red-600'}>
+                  {task.isComplete ? 'Complete' : 'Incomplete'}
+                </span>
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={() => handleToggleComplete(task.id, task.isComplete)}
+                className="bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+              >
+                {task.isComplete ? 'Mark Incomplete' : 'Mark Complete'}
+              </button>
+              <button
+                onClick={() => handleDeleteTask(task.id)}
+                className="bg-red-600 text-white p-2 rounded hover:bg-red-700"
+              >
+                Delete
+              </button>
+            </div>
           </li>
         ))}
       </ul>
@@ -99,3 +128,5 @@ const Tasks: React.FC = () => {
 };
 
 export default Tasks;
+
+
