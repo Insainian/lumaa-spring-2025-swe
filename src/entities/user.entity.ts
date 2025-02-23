@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Task } from "./task.entity";
+import { Task } from './task.entity';
 
 @Entity()
 export class User {
@@ -10,7 +10,7 @@ export class User {
   username: string;
 
   @Column()
-  password: string;
+  password: string; // Ideally called hashedPassword, but sticking with Github doc definition
 
   @OneToMany(() => Task, (task) => task.user)
   tasks: Task[];
