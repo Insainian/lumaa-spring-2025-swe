@@ -105,8 +105,8 @@ const Tasks: React.FC = () => {
           />
         </div>
         <div className="mb-4">
-          <input
-            type="text"
+          <textarea
+            rows={3}
             placeholder="Task description"
             className="w-full p-2 border rounded"
             value={newTaskDesc}
@@ -138,8 +138,8 @@ const Tasks: React.FC = () => {
                     onChange={e => setEditTitle(e.target.value)}
                     className="mb-2 p-1 border rounded w-full"
                   />
-                  <input
-                    type="text"
+                  <textarea
+                    rows={3}
                     value={editDescription}
                     onChange={e => setEditDescription(e.target.value)}
                     className="mb-2 p-1 border rounded w-full"
