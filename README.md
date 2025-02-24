@@ -17,13 +17,13 @@ authentication state.
 
 For this application, the database runs on **Docker** 
 
-Download the latest postgreSQL image through the terminal:
+Download the latest PostgreSQL image through the terminal:
 
 ```commandline
 docker pull postgres:latest
 ```
 
-I have provided an `.env` file set to some default values. Feel free to change it to the appropriate
+In the backend directory, I have provided an `.env` file set to some default values. Feel free to change it to any other
 ports and credentials you will use.
 
 ```
@@ -38,7 +38,7 @@ JWT_SECRET=RANDOM_KEY
 VITE_URL=http://localhost:5173
 ```
 
-Then go to the root directory of the project and run the following:
+Then from the root directory of the project, run the following:
 
 ```commandline
 cd backend
@@ -50,7 +50,7 @@ This runs PostgreSQL in a detached container.
 
 ## Backend
 
-Through the same terminal or a different one, run the following:
+Through the same terminal or a different one, run the following from the root directory:
 
 ```commandline
 cd backend
@@ -60,7 +60,7 @@ npm run start:dev
 
 ## Frontend
 
-Open a different terminal from the root directory and run the following:
+Open a different terminal, and from the root directory run the following:
 
 ```commandline
 cd frontend
@@ -69,7 +69,7 @@ npm run dev
 ```
 ## Migrations
 
-Open a new terminal and first generate a migration:
+Open a new terminal in the root directory and generate a migration:
 
 ```commandline
 cd backend
@@ -96,6 +96,12 @@ You can also click the link in the frontend terminal. It should look something l
   ➜  Network: use --host to expose
   ➜  press h + enter to show help
 ```
+
+## Video
+
+[**Demo**](https://drive.google.com/file/d/1JNctuThAk4Bu0JAOugOeAMRiYoNiASzm/view?usp=sharing)
+
+---
 
 ## Salary Expectations
 
