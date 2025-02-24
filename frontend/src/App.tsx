@@ -13,6 +13,7 @@ const App: React.FC = () => {
   return (
     <Router>
       <nav className="bg-blue-600 p-4 flex items-center">
+        <div className="text-white font-bold text-xl">Task Manager</div>
         {token && (
           <div className="ml-auto">
             <LogoutButton />
