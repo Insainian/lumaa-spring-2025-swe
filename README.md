@@ -83,6 +83,17 @@ npm run migration:run
 
 ---
 
+## Testing
+
+Run testing in the backend directory with the following: 
+
+```commandline
+cd backend
+npm run test
+```
+
+---
+
 ## Using the Application
 
 Now go to http://localhost:5173 to access the application.
